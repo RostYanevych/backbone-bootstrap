@@ -46,7 +46,7 @@ post '/logout' do
   json resp
 end
 
-get '/users.?:format?' do
+get '/api/users.json' do
   users=[
     {id: 1, name: 'Rost', email: 'rost@mail.com'},
     {id: 2, name: 'John Doe', email: 'jdoe@mail.com'}

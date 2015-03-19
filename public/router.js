@@ -75,7 +75,6 @@ define([
         },
 
         users: function() {
-            console.debug('users route');
             this.show(new UsersPageView({}));
         },
 
