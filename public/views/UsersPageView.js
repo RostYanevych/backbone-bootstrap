@@ -75,7 +75,7 @@ console.debug('---Backgrid.Grid: ', Backgrid.Grid);
 
                 var usersGrid = new bbGrid.View({
                     container: $('#users-list-container').empty(), //remove "Loading..." text
-                    enableSearch: true,
+                    //enableSearch: true,
                     rows: 5,
                     rowList: [5, 25, 50, 100],
                     collection: self.users,
@@ -90,7 +90,7 @@ console.debug('---Backgrid.Grid: ', Backgrid.Grid);
                             }
                         } ],
                     onReady: function() {
-                        //$('a', this.$el).removeAttr('href');
+                        $('.bbGrid-grid-nav a', this.$el).removeAttr('href');
                     }
                 });
             });
