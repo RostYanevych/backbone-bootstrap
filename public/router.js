@@ -12,7 +12,8 @@ define([
     "views/HeaderView",
     "views/LoginPageView",
     "views/UsersPageView",
-], function(app, SessionModel, UserModel, UsersCollection, HeaderView, LoginPageView, UsersPageView){
+    "views/AddUserPageView"
+], function(app, SessionModel, UserModel, UsersCollection, HeaderView, LoginPageView, UsersPageView, AddUserPageView){
 
     var WebRouter = Backbone.Router.extend({
 
@@ -24,6 +25,7 @@ define([
             "" : "index",
             "users": "users",
             "users/:id": "userDetails",
+            "add_user": "addUser",
             "tests": "tests",
             "tests/:id": "testDetails"
         },
@@ -81,6 +83,11 @@ define([
 
         userDetails: function(id){
             console.debug('userDetails route');
+        },
+
+        addUser: function(){
+            console.log('Add user route');
+            this.show(new AddUserPageView({}),{requiresAuth: true});
         }
     });
 

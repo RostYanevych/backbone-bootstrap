@@ -3,18 +3,8 @@ require 'sinatra'
 require "sinatra/json"
 require 'sinatra/reloader' if development?
 
-set :public_folder, 'public'
-#set :static, true
-#set :sessions, true
-#enable :sessions
 use Rack::Session::Pool #, :expire_after => 2592000
 set :session_secret, 'super secret TMS'
-
-#use Rack::Session::Cookie, :key => 'rack.session',
-#                           :domain => 'foo.com',
-#                           :path => '/',
-#                           :expire_after => 2592000, # In seconds
-#                           :secret => 'change_me'
 
 #before filter
 before do
