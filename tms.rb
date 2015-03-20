@@ -48,8 +48,8 @@ end
 
 get '/api/users.json' do
   users=[
-    {id: 1, name: 'Rost', email: 'rost@mail.com'},
-    {id: 2, name: 'John Doe', email: 'jdoe@mail.com'}
+    {id: 1, username: 'rost', name: 'Rost', email: 'rost@mail.com'},
+    {id: 22, username: 'jdoe', name: 'John Doe', email: 'jdoe@mail.com'}
   ]
   json users
 end

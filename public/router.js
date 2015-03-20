@@ -1,5 +1,5 @@
 /**
- * @desc        backbone router for pushState page routing
+ * @desc        backbone router
  */
 
 define([
@@ -7,11 +7,12 @@ define([
 
     "models/SessionModel",
     "models/UserModel",
+    "models/UsersCollection",
 
     "views/HeaderView",
     "views/LoginPageView",
     "views/UsersPageView",
-], function(app, SessionModel, UserModel, HeaderView, LoginPageView, UsersPageView){
+], function(app, SessionModel, UserModel, UsersCollection, HeaderView, LoginPageView, UsersPageView){
 
     var WebRouter = Backbone.Router.extend({
 
@@ -75,7 +76,7 @@ define([
         },
 
         users: function() {
-            this.show(new UsersPageView({}));
+            this.show(new UsersPageView({}),{requiresAuth: true});
         },
 
         userDetails: function(id){

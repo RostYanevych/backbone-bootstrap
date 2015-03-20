@@ -14,7 +14,9 @@ require.config({
         'backbone'              : 'assets/lib/backbone',
         'bootstrap'             : 'assets/vendor/bootstrap/js/bootstrap',
         'text'                  : 'assets/lib/text',
-        'parsley'               : 'assets/lib/parsley'
+        'parsley'               : 'assets/lib/parsley',
+        'bbGrid'                : 'assets/lib/bbGrid',
+        'backgrid'              : 'assets/lib/backgrid'
     },
 
     // non-AMD lib
@@ -22,7 +24,9 @@ require.config({
         'underscore'            : { exports  : '_' },
         'backbone'              : { deps : ['underscore', 'jquery'], exports : 'Backbone' },
         'bootstrap'             : { deps : ['jquery'], exports : 'Bootstrap' },
-        'parsley'               : { deps: ['jquery'] }
+        'parsley'               : { deps: ['jquery'] },
+        'bbGrid'                : { deps: ['jquery', 'backbone', 'bootstrap'], exports: 'bbGrid' },
+        'backgrid'              : { deps: ['jquery', 'backbone', 'bootstrap'], exports: 'Backgrid' }
     }
 
 });

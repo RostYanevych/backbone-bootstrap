@@ -4,9 +4,11 @@
 define([
     "jquery",
     "underscore",
-    "backbone"
+    "backbone",
+    "bbGrid",
+    "backgrid"
 ],
-function($, _, Backbone) {
+function($, _, Backbone, bbGrid) {
     var app = {
         root : "/",                     // The root path to run the application through.
         URL : "/",                      // Base application URL
@@ -28,7 +30,7 @@ function($, _, Backbone) {
 
     // Global event aggregator
     app.eventAggregator = _.extend({}, Backbone.Events);
-
+console.debug('Globals bbGrid', bbGrid);
     return app;
 });
 

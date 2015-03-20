@@ -1,5 +1,5 @@
 /**
- * @desc		stores the POST state and response state of authentication for user
+ * @desc User model
  */
 define([
     "app"
@@ -21,9 +21,7 @@ define([
         url: function(){
             return app.API + '/user';
         }
-
     });
-    
     return UserModel;
 });
 

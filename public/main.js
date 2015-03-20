@@ -23,23 +23,29 @@ function(app, WebRouter, SessionModel) {
     app.session.checkAuth({
         // Start the backbone routing once we have captured a user's auth status
         complete: function(){
-            // HTML5 pushState for URLs without hashbangs
-            //var hasPushstate = !!(window.history && history.pushState);
-            //if(hasPushstate)
-            //    Backbone.history.start({ pushState: true, root: '/' });
-            //else
-                Backbone.history.start();
+            Backbone.history.start();
         }
     });
-
 
     // All navigation that is relative should be passed through the navigate
     // method, to be processed by the router. If the link has a `data-bypass`
     // attribute, bypass the delegation completely.
+/*
     $('#wrap').on("click", "a:not([data-bypass])", function(evt) {
         evt.preventDefault();
         var href = $(this).attr("href");
-        app.router.navigate(href, { trigger : true, replace : false });
+        if(href !== undefined)
+          app.router.navigate(href, { trigger : true, replace : false });
     });
+*/
+
+    $('#wrap').on("click", "a[data-auth-nav]", function(evt) {
+console.log('auth link clicked');
+        evt.preventDefault();
+        var href = $(this).attr("href");
+        if(href !== undefined)
+            app.router.navigate(href, { trigger : true, replace : false });
+    });
+
 });
 
