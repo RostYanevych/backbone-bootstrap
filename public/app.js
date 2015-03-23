@@ -19,9 +19,9 @@ function($, _, Backbone, bbGrid) {
             $("#header-alert").removeClass("alert-danger alert-warning alert-success alert-info");
             $("#header-alert").addClass(klass);
             $("#header-alert").html('<button class="close" data-dismiss="alert">×</button><strong>' + title + '</strong> ' + text);
-            $("#header-alert").show('fast');
+            $("#header-alert").show().addClass('appear');
             setTimeout(function() {
-                $("#header-alert").hide();
+                $("#header-alert").removeClass('appear').delay(500).hide(0);
             }, 7000 );
         }
     };
@@ -30,7 +30,6 @@ function($, _, Backbone, bbGrid) {
 
     // Global event aggregator
     app.eventAggregator = _.extend({}, Backbone.Events);
-console.debug('Globals bbGrid', bbGrid);
     return app;
 });
 

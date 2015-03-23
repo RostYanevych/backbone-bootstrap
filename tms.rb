@@ -29,13 +29,6 @@ get '/api/auth' do
   json resp
 end
 
-post '/logout' do
-  session[:user]=nil
-  session.clear
-  resp = {success: "User successfully logged out."}
-  json resp
-end
-
 get '/api/users.json' do
   users=[
     {id: 1, username: 'rost', name: 'Rost', email: 'rost@mail.com'},
@@ -56,7 +49,14 @@ post '/api/auth/login' do
 end
 
 post '/api/auth/logout' do
+  session.clear
   resp = {success: "User successfully logged out."}
+  json resp
+end
+
+post '/api/auth/signup' do
+  req = parsed_body
+  resp = {user: {id: 99, username: req['username'], name: req['name'], email: req['email']}}
   json resp
 end
 

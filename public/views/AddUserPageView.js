@@ -7,26 +7,12 @@ define([
     var AddUserPageView = Backbone.View.extend({
 
         initialize: function () {
-            _.bindAll(this, 'onPasswordKeyup', 'onConfirmPasswordKeyup', 'onSignupAttempt', 'render');
+            _.bindAll(this, 'onConfirmPasswordKeyup', 'onSignupAttempt', 'render');
         },
 
         events: {
             'click #signup-btn'                     : 'onSignupAttempt',
-            'keyup #login-password-input'           : 'onPasswordKeyup',
             'keyup #signup-password-confirm-input'  : 'onConfirmPasswordKeyup'
-        },
-
-        // Allow enter press to trigger login
-        onPasswordKeyup: function(evt){
-            var k = evt.keyCode || evt.which;
-
-            if (k == 13 && $('#login-password-input').val() === ''){
-                evt.preventDefault();    // prevent enter-press submit when input is empty
-            } else if(k == 13){
-                evt.preventDefault();
-                this.onLoginAttempt();
-                return false;
-            }
         },
 
         // Allow enter press to trigger signup
@@ -46,9 +32,10 @@ define([
             if(evt) evt.preventDefault();
             if(this.$("#signup-form").parsley('validate')){
                 app.session.signup({
-                    username: this.$("#signup-username-input").val(),
-                    password: this.$("#signup-password-input").val(),
-                    name: this.$("#signup-name-input").val()
+                    username: this.$("#inputUserName").val(),
+                    name: this.$("#inputName").val(),
+                    email: this.$("#inputUserEmail").val(),
+                    password: this.$("#signup-password-input").val()
                 }, {
                     success: function(mod, res){
                         if(DEBUG) console.log("SUCCESS", mod, res);

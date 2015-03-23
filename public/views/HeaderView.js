@@ -22,8 +22,13 @@ define([
       
         onLoginStatusChange: function(evt){
             this.render();
-            if(app.session.get("logged_in")) app.showAlert("Success!", "Logged in as "+app.session.user.get("username"), "alert-success");
-            else app.showAlert("See ya!", "Logged out successfully", "alert-success");
+            if(app.session.get("logged_in")){
+                app.showAlert("Success!", "Logged in as " + app.session.user.get("username"), "alert-success");
+            }
+            else {
+                app.showAlert("See ya!", "Logged out successfully", "alert-success");
+                app.router.navigate('/');
+            }
         },
 
         onLogoutClick: function(evt) {
@@ -43,8 +48,7 @@ define([
                 user: app.session.user.toJSON() 
             }));
             return this;
-        },
-
+        }
     });
 
     return HeaderView;

@@ -7,7 +7,7 @@
             </div>
             <form id="signup-form" class="form-horizontal" data-validate="parsley">
                 <div class="form-group">
-                    <label for="inputUserName" class="col-sm-2 control-label">Username</label>
+                    <label for="inputUserName" class="col-sm-2 control-label">Login</label>
                     <div class="col-sm-10">
                         <input type="test" class="form-control" id="inputUserName" name="username" data-required="true" data-notblank="true">
                         <span class="help-block"></span>
@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Username</label>
+                    <label for="inputName" class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-10">
                         <input type="test" class="form-control col-sm-8" id="inputName" name="name" data-required="true" data-notblank="true">
                         <span class="help-block col-sm-4"></span>
@@ -45,9 +45,10 @@
                         <input type="password" class="form-control" id="signup-password-confirm-input" name="user_password" data-required="true" data-notblank="true" data-rangelength="[5,25]" data-equalto="#signup-password-input">
                         <span class="help-block"></span>
                     </div>
+                    <span class="help-block"></span>
                 </div>
 
-                <a href="#" id="signup-btn" class="btn btn-primary btn-lg" data-bypass>Create User</a>
+                <a href="#" id="signup-btn" class="btn btn-primary btn-lg pull-right" data-bypass>Create User</a>
             </form>
         </div>
     </div>
