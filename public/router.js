@@ -8,17 +8,22 @@ define([
     "models/SessionModel",
     "models/UserModel",
     "models/UsersCollection",
+    "models/TestModel",
+    "models/TestsCollection",
+
 
     "views/HeaderView",
     "views/LoginPageView",
     "views/UsersPageView",
-    "views/AddUserPageView"
-], function(app, SessionModel, UserModel, UsersCollection, HeaderView, LoginPageView, UsersPageView, AddUserPageView){
+    "views/AddUserPageView",
+    "views/TestsPageView",
+    "views/TestDetailsPageView"
+], function(app, SessionModel, UserModel, UsersCollection, TestModel, TestsCollection, HeaderView, LoginPageView, UsersPageView, AddUserPageView, TestsPageView, TestDetailsPageView ){
 
     var WebRouter = Backbone.Router.extend({
 
         initialize: function(){
-            _.bindAll(this, 'show','index', 'users', 'userDetails');
+            _.bindAll(this, 'show','index', 'users', 'userDetails', 'addUser', 'tests');
         },
 
         routes: {
@@ -27,9 +32,15 @@ define([
             "users/:id": "userDetails",
             "add_user": "addUser",
             "tests": "tests",
-            "tests/:id": "testDetails"
+            "tests/:id": "testDetails",
+            "tests/:id/edit": "testEdit"
         },
-
+        // fired before every route.
+        //execute: function(callback, args) {
+        //  console.log('Route execute: ', callback, args);
+        //  args.push(parseQueryString(args.pop()));
+        //  if (callback) callback.apply(this, args);
+        //},
         show: function(view, options){
 
             // Every page view in the router should need a header.
@@ -67,7 +78,6 @@ define([
                 $('#content').html(this.currentView.render().$el);
                 //this.currentView.delegateEvents(this.currentView.events);        // Re-delegate events (unbound when closed)
             }
-
         },
 
         index: function() {
@@ -88,6 +98,21 @@ define([
         addUser: function(){
             console.log('Add user route');
             this.show(new AddUserPageView({}),{requiresAuth: true});
+        },
+
+        tests: function(){
+            console.log('Tests route');
+            this.show(new TestsPageView({}),{requiresAuth: true});
+        },
+
+        testDetails: function(id){
+            console.log('Test details route for test ', id);
+            this.show(new TestDetailsPageView(id),{requiresAuth: true});
+        },
+
+        testEdit: function(id){
+            console.log('Test Edit route for test ', id);
+            //this.show(new TestEditPageView(id),{requiresAuth: true});
         }
     });
 

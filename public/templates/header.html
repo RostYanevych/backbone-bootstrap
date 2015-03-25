@@ -15,11 +15,11 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
             <ul class="nav navbar-nav">
-                <li><a href="#tests" data-auth-nav>Test Results</a></li>
+                <li><a href="#tests" data-auth-nav>Tests</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#users">Users</a></li>
+                <li><a href="#users" data-auth-nav>Users</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.username %> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -34,7 +34,11 @@
     </div>
 </nav>
 
-<div id="header-alert" class="container text-center alert alert-success navbar-button"></div>
+<div id="header-alert" class="container text-center alert alert-success navbar-button">
+    <button class="close" id="alert-hide">×</button>
+    <strong id="alert-title"></strong>
+    <span id="alert-text"></span>
+</div>
 
 <!--
 <div id="notification-container" class="container text-center" style="display:none;">

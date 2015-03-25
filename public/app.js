@@ -18,12 +18,11 @@ function($, _, Backbone, bbGrid) {
         showAlert: function(title, text, klass) {
             $("#header-alert").removeClass("alert-danger alert-warning alert-success alert-info");
             $("#header-alert").addClass(klass);
-            $("#header-alert").html('<button class="close" data-dismiss="alert">×</button><strong>' + title + '</strong> ' + text);
+            $("#alert-title").html(title);
+            $("#alert-text").html(text);
             $("#header-alert").show().addClass('appear');
-            setTimeout(function() {
-                $("#header-alert").removeClass('appear').delay(500).hide(0);
-            }, 7000 );
-        }
+            if (klass!='alert-danger') //Autohide success notifications, but not errors
+              setTimeout(function() { $("#header-alert").removeClass('appear').delay(500).hide(0);}, 7000 ); }
     };
 
     $.ajaxSetup({ cache: false });          // force ajax call on all browsers

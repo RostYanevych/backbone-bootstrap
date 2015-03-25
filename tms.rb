@@ -29,7 +29,7 @@ get '/api/auth' do
   json resp
 end
 
-get '/api/users.json' do
+get '/api/users.?:format?' do
   users=[
     {id: 1, username: 'rost', name: 'Rost', email: 'rost@mail.com'},
     {id: 22, username: 'jdoe', name: 'John Doe', email: 'jdoe@mail.com'}
@@ -37,14 +37,63 @@ get '/api/users.json' do
   json users
 end
 
+get '/api/tests.?:format?' do
+  tests=[
+    {id: 1, testid: '5.2.1', mode: 'S', company: 'AAA', event: 'NAN Plugtest 5'},
+    {id: 2, testid: '5.2.2', mode: 'S', company: 'BBB', event: nil},
+    {id: 3, testid: '5.2.3', mode: 'S', company: 'CCC', event: nil},
+    {id: 4, testid: '5.2.4', mode: 'S', company: 'DDD', event: nil},
+    {id: 5, testid: '5.2.5', mode: 'S', company: 'EEE', event: nil},
+    {id: 6, testid: '5.2.6', mode: 'S', company: 'FFF', event: nil},
+    {id: 7, testid: '5.2.7', mode: 'S', company: 'GGG', event: nil},
+    {id: 8, testid: '5.2.7', mode: 'S', company: nil, event: nil},
+    {id: 9, testid: '5.2.7', mode: 'S', company: nil, event: nil},
+    {id: 10, testid: '5.2.8a', mode: 'S', company: nil, event: nil},
+    {id: 11, testid: '5.2.8b', mode: 'S', company: nil, event: nil},
+    {id: 12, testid: '5.2.8c', mode: 'S', company: nil, event: nil},
+    {id: 13, testid: '5.2.8d', mode: 'S', company: nil, event: nil},
+    {id: 14, testid: '5.2.8e', mode: 'S', company: nil, event: nil},
+    {id: 15, testid: '5.2.8f', mode: 'S', company: nil, event: nil},
+    {id: 16, testid: '5.2.8g', mode: 'S', company: nil, event: nil},
+    {id: 17, testid: '5.2.8h', mode: 'S', company: nil, event: nil},
+    {id: 18, testid: '5.2.8i', mode: 'S', company: nil, event: nil},
+    {id: 19, testid: '5.2.8j', mode: 'S', company: nil, event: nil},
+    {id: 20, testid: '5.2.8k', mode: 'S', company: nil, event: nil},
+    {id: 21, testid: '5.2.8l', mode: 'S', company: nil, event: nil},
+    {id: 22, testid: '5.2.8m', mode: 'S', company: nil, event: nil},
+    {id: 23, testid: '5.2.8n', mode: 'S', company: nil, event: nil},
+    {id: 24, testid: '5.2.8o', mode: 'S', company: nil, event: nil},
+    {id: 25, testid: '5.2.8p', mode: 'S', company: nil, event: nil},
+    {id: 26, testid: '5.2.8q', mode: 'S', company: nil, event: nil},
+    {id: 27, testid: '5.2.8r', mode: 'S', company: nil, event: nil},
+    {id: 28, testid: '5.2.8s', mode: 'S', company: nil, event: nil},
+    {id: 29, testid: '5.2.8t', mode: 'S', company: nil, event: nil}
+  ]
+  dt=Time.now
+  tests.each_with_index do |test, idx|
+    test[:date] = (dt + idx*24*60*60).to_i*1000 #+ idx days, *1000 to get in js format (with ms)
+  end
+  json tests
+end
+
+get '/api/tests/:id' do
+  params[:id]
+  test = {id: params[:id], testid: "5.2.#{params[:id]}", mode: 'S'}
+  json test
+end
+
 post '/api/auth/login' do
   req = parsed_body
-  user = {id: 1,
-          name: req['username'],
-          username: "#{req['username']}|#{req['password']}"
-         }
-  session[:user] = user
-  resp = {user: user}
+  if req['username'] == 'baduser'
+    resp = { error: "Invalid username or password."  }
+  else
+    user = {id: 1,
+            name: 'User Name',
+            username: "#{req['username']}"
+           }
+    session[:user] = user
+    resp = {user: user}
+  end
   json resp
 end
 

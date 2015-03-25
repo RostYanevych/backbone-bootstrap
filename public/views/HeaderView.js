@@ -26,8 +26,8 @@ define([
                 app.showAlert("Success!", "Logged in as " + app.session.user.get("username"), "alert-success");
             }
             else {
-                app.showAlert("See ya!", "Logged out successfully", "alert-success");
-                app.router.navigate('/');
+                app.showAlert("Bye!", "Logged out successfully", "alert-success");
+                app.router.navigate('/',{trigger: true});
             }
         },
 

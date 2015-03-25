@@ -44,8 +44,13 @@ console.log('auth link clicked');
         evt.preventDefault();
         var href = $(this).attr("href");
         if(href !== undefined)
+            $("#header-alert").hide();
             app.router.navigate(href, { trigger : true, replace : false });
-    });
+    })
+        .on("click", "#alert-hide", function(e){
+            $("#header-alert").removeClass('appear').delay(500).hide(0);
+        })
+    ;
 
 });
 

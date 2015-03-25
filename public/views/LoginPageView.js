@@ -48,7 +48,7 @@ define([
                     },
                     error: function(err){
                         if(DEBUG) console.log("ERROR", err);
-                        app.showAlert('Bummer dude!', err.error, 'alert-danger'); 
+                        app.showAlert('Error:', err.error, 'alert-danger'); 
                     }
                 });
             } else {
