@@ -1,18 +1,10 @@
 /**
  * @desc Tests collection
  */
-define([
-    "app",
-    "models/TestModel"
-], function(app, TestModel){
-
-    var TestsCollection = Backbone.Collection.extend({
-        model: TestModel,
-        url: function(){ return app.API + '/tests.json'; },
-        initialize: function(){
-            //_.bindAll(this, 'url');
-        }
-    });
-
-    return TestsCollection;
+app.TestsCollection = Backbone.Collection.extend({
+    model: app.TestModel,
+    url: function(){ return app.API + '/tests.json'; },
+    initialize: function(){
+        //_.bindAll(this, 'url');
+    }
 });

@@ -32,9 +32,9 @@
 <body>
 	<div id="wrap">
 		<div class="header"></div>
-	
+
 		<div id="content" class="container">
-            <script src="/assets/lib/require.js" data-main="/config.js"></script>
+            <!--<script src="/assets/lib/require.js" data-main="/config.js"></script>-->
         </div>
 	</div>
 
@@ -42,7 +42,45 @@
 		<hr>
 	    <p class="pull-left">&copy; 2015 Rost</p>
 	</div>
-	
+
+    <!-- Libraries -->
+    <script src="/assets/lib/jquery.js"></script>
+    <script src="/assets/lib/underscore-min.js"></script>
+    <script src="/assets/lib/backbone.js"></script>
+    <script src="/assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="/assets/lib/parsley.js"></script>
+    <script src="/assets/lib/bbGrid.js"></script>
+    <script src="/assets/lib/backgrid.js"></script>
+
+    <!-- Application main file, Router -->
+    <script src="app.js"></script>
+
+    <!-- Application Models-->
+    <script src="/models/UserModel.js"></script>
+    <script src="/models/SessionModel.js"></script>
+    <script src="/models/UsersCollection.js"></script>
+    <script src="/models/TestModel.js"></script>
+    <script src="/models/TestsCollection.js"></script>
+
+    <!-- Application Views-->
+    <script src="/views/HeaderView.js"></script>
+    <script src="/views/LoginPageView.js"></script>
+    <script src="/views/TestsPageView.js"></script>
+    <script src="/views/TestDetailsPageView.js"></script>
+    <script src="/views/UsersPageView.js"></script>
+    <script src="/views/AddUserPageView.js"></script>
+
+
+    <!--
+    Employee dir
+        <script src="app.js"></script>
+        <script src="js/views/shell.js"></script>
+        <script src="js/views/home.js"></script>
+        <script src="js/views/contact.js"></script>
+        <script src="js/views/employeelist.js"></script>
+        <script src="js/views/employeedetails.js"></script>
+    -->
+
 </body>
 </html>
 

@@ -1,29 +1,10 @@
 /**
  * @desc        backbone router
  */
-
-define([
-    "app",
-
-    "models/SessionModel",
-    "models/UserModel",
-    "models/UsersCollection",
-    "models/TestModel",
-    "models/TestsCollection",
-
-
-    "views/HeaderView",
-    "views/LoginPageView",
-    "views/UsersPageView",
-    "views/AddUserPageView",
-    "views/TestsPageView",
-    "views/TestDetailsPageView"
-], function(app, SessionModel, UserModel, UsersCollection, TestModel, TestsCollection, HeaderView, LoginPageView, UsersPageView, AddUserPageView, TestsPageView, TestDetailsPageView ){
-
     var WebRouter = Backbone.Router.extend({
 
         initialize: function(){
-            _.bindAll(this, 'show','index', 'users', 'userDetails', 'addUser', 'tests');
+            _.bindAll(this, 'show','index', 'users', 'userDetails', 'addUser', 'tests', 'testDetails', 'testEdit');
         },
 
         routes: {
@@ -115,6 +96,3 @@ define([
             //this.show(new TestEditPageView(id),{requiresAuth: true});
         }
     });
-
-    return WebRouter;
-});
