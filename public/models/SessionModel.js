@@ -63,7 +63,7 @@ app.SessionModel = Backbone.Model.extend({
     postAuth: function(opts, callback, args){
         var self = this;
         var postData = _.omit(opts, 'method');
-        console.log(postData);
+        console.log('postAuth:', postData);
         $.ajax({
             url: this.url() + '/' + opts.method,
             contentType: 'application/json',

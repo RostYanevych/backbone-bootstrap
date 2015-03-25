@@ -44,9 +44,9 @@ app.TestsPageView = Backbone.View.extend({
             }
         ];
 
-        var p = self.tests.fetch(); //fetch returns Promise object
+        var d = self.tests.fetch(); //fetch returns Deferred object
 
-        p.done(function () {
+        d.done(function () {
 // Initialize a new Grid instance
             var grid = new Backgrid.Grid({
                 columns: columns,

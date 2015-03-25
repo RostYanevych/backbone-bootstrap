@@ -4,7 +4,7 @@ app.TestDetailsPageView = Backbone.View.extend({
         _.bindAll(this, 'render');
         console.debug('initialize TestDetailsView', id);
         this.test = new app.TestModel({id: id});
-        this.testFetch = this.test.fetch();
+        //this.testFetch = this.test.fetch();
         //this.tests = new TestsCollection();
         //here we should load Tests list
     },
@@ -22,10 +22,9 @@ app.TestDetailsPageView = Backbone.View.extend({
         var self = this;
         console.debug('rendering this.test=', this.test);
         //this.template = _.template(TestDetailsPageTpl);
-        this.testFetch.done(function(){
+        this.test.fetch().done(function(){
             self.$el.html(self.template({ test: self.test }));
         });
-
         return this;
     }
 });
