@@ -3,8 +3,8 @@
  */
 app.TestsCollection = Backbone.Collection.extend({
     model: app.TestModel,
-    url: function(){ return app.API + '/tests.json'; },
+    url: app.API + '/tests.json',
     initialize: function(){
-        //_.bindAll(this, 'url');
+        //_.bindAll(this, 'some_model_methods');
     }
 });

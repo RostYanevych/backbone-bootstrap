@@ -15,7 +15,5 @@ app.TestModel = Backbone.Model.extend({
         event: null
     },
 
-    url: function(){
-        return app.API + '/tests/'+this.id;
-    }
+    urlRoot: app.API + '/tests'
 });

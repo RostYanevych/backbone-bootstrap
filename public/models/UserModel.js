@@ -8,14 +8,16 @@ app.UserModel = Backbone.Model.extend({
         //_.bindAll(this, 'url');
     },
 
-    defaults: {
-        id: 0,
-        username: '',
-        name: '',
-        email: ''
-    },
+    //defaults: {
+    //    id: 0,
+    //    username: '',
+    //    name: '',
+    //    email: ''
+    //},
 
-    url: function(){
-        return app.API + '/users/'+this.id;
-    }
+    urlRoot: app.API + '/users'
+
+    //url: function(){
+    //    return app.API + '/users/'+this.id;
+    //}
 });

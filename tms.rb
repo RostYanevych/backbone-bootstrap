@@ -37,6 +37,27 @@ get '/api/users.?:format?' do
   json users
 end
 
+# get the user
+get '/api/users/:id' do
+  user = {id: params[:id], username: 'rost', name: 'Rost', email: 'rost@mail.com'}
+  json user
+end
+
+# create new user
+post '/api/users' do
+  req = parsed_body
+  user = {id: rand(10000), username: req['username'], name: req['username'], email: req['email']}
+  json user
+end
+
+# User update. Called by UserModel.save()
+put '/api/users/:id' do
+  req = parsed_body
+  user = {id: params[:id], username: 'rost', name: 'Rost', email: 'rost@mail.com'}
+  json user
+end
+
+
 get '/api/tests.?:format?' do
   tests=[
     {id: 1, testid: '5.2.1', mode: 'S', company: 'AAA', event: 'NAN Plugtest 5'},
@@ -77,7 +98,6 @@ get '/api/tests.?:format?' do
 end
 
 get '/api/tests/:id' do
-  params[:id]
   test = {id: params[:id], testid: "5.2.#{params[:id]}", mode: 'S'}
   json test
 end
