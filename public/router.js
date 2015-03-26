@@ -77,17 +77,14 @@ app.Router = Backbone.Router.extend({
     },
 
     addUser: function(){
-        console.log('Add user route');
         this.show(new app.AddUserPageView({}),{requiresAuth: true});
     },
 
     tests: function(){
-        console.log('Tests route');
         this.show(new app.TestsPageView({}),{requiresAuth: true});
     },
 
     testDetails: function(id){
-        console.log('Test details route for test ', id);
         this.show(new app.TestDetailsPageView(id),{requiresAuth: true});
     },
 

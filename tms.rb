@@ -47,6 +47,10 @@ end
 post '/api/users' do
   req = parsed_body
   user = {id: rand(10000), username: req['username'], name: req['username'], email: req['email']}
+  if req['username'] == 'error'
+    status 500
+    user[:error]='Some error while creating user'
+  end
   json user
 end
 

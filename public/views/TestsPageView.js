@@ -2,9 +2,7 @@ app.TestsPageView = Backbone.View.extend({
 
     initialize: function () {
         _.bindAll(this, 'render', 'deleteTest');
-        console.debug('initialize TestsView', app.TestsCollection);
         this.tests = new app.TestsCollection();
-        //here we should load Tests list
     },
 
     events: {
@@ -17,7 +15,7 @@ app.TestsPageView = Backbone.View.extend({
             self.tests.get($(e.target).data('id')).destroy({
                 wait: true, // wait for the server to respond before removing the model from the collection. http://backbonejs.org/#Model-destroy
                 error: function(model, response, options){
-                    app.showAlert('Error:', app.getErrorMsg(response), 'alert-danger');
+                    app.showAlert('Error:', getErrorMsg(response), 'alert-danger');
                 },
                 success: function(model, response, options){
                     app.showAlert('Success:', 'Test has been deleted', 'alert-success');

@@ -1,11 +1,11 @@
 app.AddUserPageView = Backbone.View.extend({
 
     initialize: function () {
-        _.bindAll(this, 'onConfirmPasswordKeyup', 'onSignupAttempt', 'render');
+        _.bindAll(this, 'onConfirmPasswordKeyup', 'addUser', 'render');
     },
 
     events: {
-        'click #signup-btn'                     : 'onSignupAttempt',
+        'click #add-btn'                     : 'addUser',
         'keyup #signup-password-confirm-input'  : 'onConfirmPasswordKeyup'
     },
 
@@ -22,26 +22,32 @@ app.AddUserPageView = Backbone.View.extend({
         }
     },
 
-    onSignupAttempt: function(evt){
+    addUser: function(evt){
+        var self = this;
         if(evt) evt.preventDefault();
         if(this.$("#signup-form").parsley('validate')){
-            app.session.signup({
+            var user = new app.UserModel();
+
+            user.save({
                 username: this.$("#inputUserName").val(),
                 name: this.$("#inputName").val(),
                 email: this.$("#inputUserEmail").val(),
                 password: this.$("#signup-password-input").val()
-            }, {
-                success: function(mod, res){
-                    console.log("SUCCESS", mod, res);
+            },{
+                wait: true,
+                success: function(model, response, options){
+                    app.showAlert('Success!', 'User created', 'alert-success');
+                    self.$("#signup-form")[0].reset();
+                    console.log("SUCCESS", model, response);
                 },
-                error: function(err){
-                    console.log("ERROR", err);
-                    app.showAlert('Uh oh!', err.error, 'alert-danger');
+                error: function(model, response, options){
+                    console.log("ERROR: ", model, response, options);
+                    app.showAlert('Error:', getErrorMsg(response), 'alert-danger');
                 }
             });
         } else {
             // Invalid clientside validations thru parsley
-            console.log("Did not pass clientside validation");
+            app.showAlert('Validation failed.', 'Check the messages below', 'alert-warning');
         }
     },
 
