@@ -12,9 +12,13 @@ app.TestsPageView = Backbone.View.extend({
     deleteTest: function(e){
         var self=this;
         if (confirm('Are you sure you want to delete this test?')){
-            self.tests.get($(e.target).data('id')).destroy({
+            var el=$(e.target);
+            var buttons = el.parents('.bbGrid-actions-cell').find('.btn');
+            el.parents('.bbGrid-actions-cell').find('.btn').attr('disabled','disabled'); //disable action buttons
+            self.tests.get(el.data('id')).destroy({
                 wait: true, // wait for the server to respond before removing the model from the collection. http://backbonejs.org/#Model-destroy
                 error: function(model, response, options){
+                    el.parents('.bbGrid-actions-cell').find('.btn').removeAttr('disabled'); //enable action buttons
                     app.showAlert('Error:', getErrorMsg(response), 'alert-danger');
                 },
                 success: function(model, response, options){

@@ -7,6 +7,10 @@ var app = {
 
     // Show alert classes and hide after specified timeout
     showAlert: function(title, text, klass) {
+        if(title==false){ //use showAlert(false); to hide alert message
+            $("#header-alert").removeClass('appear').hide();
+            return;
+        }
         $("#header-alert").removeClass("alert-danger alert-warning alert-success alert-info");
         $("#header-alert").addClass(klass);
         $("#alert-title").html(title);

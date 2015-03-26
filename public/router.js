@@ -56,8 +56,9 @@ app.Router = Backbone.Router.extend({
 
         } else {
             // Render inside the page wrapper
+            app.showAlert(false);
             $('#content').html(this.currentView.render().$el);
-            //this.currentView.delegateEvents(this.currentView.events);        // Re-delegate events (unbound when closed)
+            //this.currentView.delegateEvents(this.currentView.events); // Re-delegate events (unbound when closed)
         }
     },
 
