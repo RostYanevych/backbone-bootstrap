@@ -38,8 +38,8 @@ get '/api/users.?:format?' do
 end
 
 # get the user
-get '/api/users/:id' do
-  user = {id: params[:id], username: 'rost', name: 'Rost', email: 'rost@mail.com'}
+get '/api/users/:id' do |id|
+  user = {id: id, username: 'rost', name: 'Rost', email: 'rost@mail.com'}
   json user
 end
 
@@ -55,12 +55,11 @@ post '/api/users' do
 end
 
 # User update. Called by UserModel.save()
-put '/api/users/:id' do
+put '/api/users/:id' do |id|
   req = parsed_body
-  user = {id: params[:id], username: 'rost', name: 'Rost', email: 'rost@mail.com'}
+  user = {id: id, username: 'rost', name: 'Rost', email: 'rost@mail.com'}
   json user
 end
-
 
 get '/api/tests.?:format?' do
   tests=[
@@ -101,9 +100,9 @@ get '/api/tests.?:format?' do
   json tests
 end
 
-get '/api/tests/:id' do
-  test = {id: params[:id], testid: "5.2.#{params[:id]}", mode: 'S'}
-  if params[:id] == '1'
+get '/api/tests/:id' do |id|
+  test = {id: id, testid: "5.2.#{params[:id]}", mode: 'S'}
+  if id == '1'
     test[:error] = 'Some emulated error message with status 404'
     status 404
   end
@@ -111,9 +110,9 @@ get '/api/tests/:id' do
 end
 
 #delete test
-delete '/api/tests/:id' do
-  resp = {id: params[:id]}
-  if params[:id] == '1'
+delete '/api/tests/:id' do |id|
+  resp = {id: id}
+  if id == '1'
     resp[:error] = 'Some Error Message'
     status 500
   end
