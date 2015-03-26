@@ -1,29 +1,23 @@
 /**
- * @desc		stores the POST state and response state of authentication for user
+ * @desc User model
  */
-define([
-    "app"
-], function(app){
 
-    var UserModel = Backbone.Model.extend({
+app.UserModel = Backbone.Model.extend({
 
-        initialize: function(){
-            //_.bindAll(this, 'url');
-        },
+    initialize: function(){
+        //_.bindAll(this, 'url');
+    },
 
-        defaults: {
-            id: 0,
-            username: '',
-            name: '',
-            email: ''
-        },
+    //defaults: {
+    //    id: 0,
+    //    username: '',
+    //    name: '',
+    //    email: ''
+    //},
 
-        url: function(){
-            return app.API + '/user';
-        }
+    urlRoot: app.API + '/users'
 
-    });
-    
-    return UserModel;
+    //url: function(){
+    //    return app.API + '/users/'+this.id;
+    //}
 });
-
