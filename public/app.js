@@ -13,11 +13,22 @@ var app = {
         $("#alert-text").html(text);
         $("#header-alert").show().addClass('appear');
         if (klass!='alert-danger') //Autohide success notifications, but not errors
-            setTimeout(function() { $("#header-alert").removeClass('appear').delay(500).hide(0);}, 7000 ); },
+            setTimeout(function() { $("#header-alert").removeClass('appear').delay(500).hide(0);}, 7000 );
+    },
+
+    // retrieves error messages from server's response to XHR call
+    getErrorMsg: function(response){
+        var error = response.statusText;
+        if(response.responseJSON && response.responseJSON.error) {
+            error = response.responseJSON.error;
+        } else {
+            if(response.responseText)
+                error = response.responseText;
+        }
+        return error;
+    },
 
     loadTemplates: function(views, callback) {
-console.log('loading views', views);
-console.log('app', app);
         var deferreds = [];
         $.each(views, function(index, view) {
             if (app[view]) {

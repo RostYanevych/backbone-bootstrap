@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'sinatra'
-require "sinatra/json"
+require 'sinatra/json'
 require 'sinatra/reloader' if development?
 
 use Rack::Session::Pool #, :expire_after => 2592000
@@ -100,6 +100,16 @@ end
 get '/api/tests/:id' do
   test = {id: params[:id], testid: "5.2.#{params[:id]}", mode: 'S'}
   json test
+end
+
+#delete test
+delete '/api/tests/:id' do
+  resp = {id: params[:id]}
+  if params[:id] == '1'
+    resp[:error] = 'Some Error Message'
+    status 500
+  end
+  json resp
 end
 
 post '/api/auth/login' do

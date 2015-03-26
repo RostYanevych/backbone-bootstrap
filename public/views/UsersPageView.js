@@ -17,7 +17,7 @@ app.UsersPageView = Backbone.View.extend({
      */
 
     render:function () {
-        console.debug('render UsersPageView', this.users.url());
+        //console.debug('render UsersPageView', this.users.url());
         var self = this;
         //if(app.session.get('logged_in'))
         //this.template = _.template(UsersPageTpl);
@@ -48,8 +48,6 @@ app.UsersPageView = Backbone.View.extend({
 
         //self.users.fetch();
 // Backgrid end
-
-
 
         console.log('fetching...');
         var p = self.users.fetch(); //fetch returns Promise object

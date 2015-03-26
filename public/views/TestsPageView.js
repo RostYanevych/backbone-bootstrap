@@ -1,20 +1,30 @@
 app.TestsPageView = Backbone.View.extend({
 
     initialize: function () {
-        _.bindAll(this, 'render');
+        _.bindAll(this, 'render', 'deleteTest');
         console.debug('initialize TestsView', app.TestsCollection);
         this.tests = new app.TestsCollection();
         //here we should load Tests list
     },
 
-    /*
-     events: {
-     'click #login-btn'                      : 'onLoginAttempt',
-     'click #signup-btn'                     : 'onSignupAttempt',
-     'keyup #login-password-input'           : 'onPasswordKeyup',
-     'keyup #signup-password-confirm-input'  : 'onConfirmPasswordKeyup'
-     },
-     */
+    events: {
+        'click button[data-action-delete]': 'deleteTest'
+    },
+
+    deleteTest: function(e){
+        var self=this;
+        if (confirm('Are you sure you want to delete this test?')){
+            self.tests.get($(e.target).data('id')).destroy({
+                wait: true, // wait for the server to respond before removing the model from the collection. http://backbonejs.org/#Model-destroy
+                error: function(model, response, options){
+                    app.showAlert('Error:', app.getErrorMsg(response), 'alert-danger');
+                },
+                success: function(model, response, options){
+                    app.showAlert('Success:', 'Test has been deleted', 'alert-success');
+                }
+            });
+        }
+    },
 
     render:function () {
         var self = this;
@@ -73,7 +83,9 @@ app.TestsPageView = Backbone.View.extend({
                     },
                     { title: 'Actions', name: 'id',
                         actions: function(id, attributes, grid){
-                            return '<a class="btn btn-default btn-xs" href="#tests/'+id+'">View</a> <a class="btn btn-default btn-xs col-md-offset-1" href="#tests/'+id+'/edit">Edit</button>';
+                            return '<a class="btn btn-default btn-xs btn-primary" href="#tests/'+id+'">View</a> \
+                                <a class="btn btn-default btn-xs col-md-offset-1" href="#tests/'+id+'/edit">Edit</a> \
+                                <button class="btn btn-default btn-xs col-md-offset-1 btn-danger" data-action-delete data-id='+id+'>Delete</button>';
                         }
                     }
                 ],
