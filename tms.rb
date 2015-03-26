@@ -99,6 +99,10 @@ end
 
 get '/api/tests/:id' do
   test = {id: params[:id], testid: "5.2.#{params[:id]}", mode: 'S'}
+  if params[:id] == '1'
+    test[:error] = 'Some emulated error message with status 404'
+    status 404
+  end
   json test
 end
 

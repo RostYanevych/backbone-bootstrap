@@ -22,9 +22,17 @@ app.TestDetailsPageView = Backbone.View.extend({
         var self = this;
         console.debug('rendering this.test=', this.test);
         //this.template = _.template(TestDetailsPageTpl);
-        this.test.fetch().done(function(){
-            self.$el.html(self.template({ test: self.test }));
+        this.test.fetch({
+            success: function(model, response, options){
+                self.$el.html(self.template({ test: self.test }));
+            },
+            error: function(model, response, options){
+                app.showAlert('Error:', app.getErrorMsg(response), 'alert-danger');
+                self.$el.html('');
+            }
         });
+
+        //.done(function(){ });
         return this;
     }
 });
