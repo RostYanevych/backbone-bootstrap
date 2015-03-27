@@ -1,4 +1,4 @@
-#header-alert, .disappear{
+#header-alert{
     opacity: 0;
     -webkit-transform: scale(0);
     -moz-transform: scale(0);
@@ -6,6 +6,7 @@
     -ms-transform:  scale(0);
     transition: all 0.5s ease-in;
     -webkit-transition: all 0.5s ease-in;
+    display: none;
 }
 
 #header-alert.appear{
@@ -16,6 +17,7 @@
     -ms-transform:  scale(1);
     transition: all 0.2s ease-in;
     -webkit-transition: all 0.2s ease-in;
+    display: block;
 }
 
 .test-res-matrix{
@@ -36,6 +38,10 @@
     font-weight: bold;
 }
 
+th.rotate-90{
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
 .rotate-90 > div{
     /*transform: translate(50%, 50%) rotate(-90deg);*/
     transform: rotate(-68deg);
@@ -53,8 +59,14 @@
 .bg-GGG{background-color: #FFFF00;}
 
 .scrollable-x{
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 .test-res-matrix .result-value-x{background-color: #00FF00;}
 .test-res-matrix .result-value-f{background-color: #FF0000;}
+
+@media (min-width: 1920px) {
+    .container {
+        width: 1890px;
+    }
+}
