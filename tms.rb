@@ -94,8 +94,11 @@ get '/api/tests.?:format?' do
     {id: 29, testid: '5.2.8t', mode: 'S', company: nil, event: nil}
   ]
   dt=Time.now
+  states = ['Not Tested', 'Pass', 'Fail', 'Fail, Previous Pass']
   tests.each_with_index do |test, idx|
     test[:date] = (dt + idx*24*60*60).to_i*1000 #+ idx days, *1000 to get in js format (with ms)
+    test[:state] = states[rand(states.size)]
+    test[:updates] = rand(100)
   end
   json tests
 end

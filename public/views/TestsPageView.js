@@ -40,6 +40,11 @@ app.TestsPageView = Backbone.View.extend({
             // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
             cell: "string" // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
         },{
+            name: "state",
+            label: "State",
+            // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
+            cell: "string" // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
+        },{
             name: "mode",
             label: "Mode",
             // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
@@ -48,12 +53,15 @@ app.TestsPageView = Backbone.View.extend({
             name: "company",
             label: "Company",
             cell: "string" // Renders the value in an HTML anchor element
-        },
-            {
-                name: "date",
-                label: "Date",
-                cell: "datetime"
-            }
+        },{
+            name: "updates",
+            label: "Updates",
+            cell: "integer"
+        },{
+            name: "date",
+            label: "Date",
+            cell: "datetime"
+        }
         ];
 
         var d = self.tests.fetch(); //fetch returns Deferred object

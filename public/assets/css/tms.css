@@ -17,3 +17,44 @@
     transition: all 0.2s ease-in;
     -webkit-transition: all 0.2s ease-in;
 }
+
+.test-res-matrix{
+    width: 100%;
+}
+
+.test-res-matrix td, .test-res-matrix th {
+    border: 1px solid black;
+    padding: 2px 0;
+    vertical-align: middle;
+    text-align: center;
+    /*font-weight: normal;*/
+    font-size: 12px;
+}
+
+.test-res-matrix tbody tr:hover{
+    box-shadow: 0 0 7px #0000ff inset;
+    font-weight: bold;
+}
+
+.rotate-90 > div{
+    /*transform: translate(50%, 50%) rotate(-90deg);*/
+    transform: rotate(-68deg);
+    /*vertical-align: middle;*/
+    /*text-align: center;*/
+}
+
+.bg-DUT{background-color: #CCFFFF;}
+.bg-AAA{background-color: #CC99FF;}
+.bg-BBB{background-color: #FFCC99;}
+.bg-CCC{background-color: #AEAAAA;}
+.bg-DDD{background-color: #FF6600;}
+.bg-EEE{background-color: #A9D08E;}
+.bg-FFF{background-color: #00CCFF;}
+.bg-GGG{background-color: #FFFF00;}
+
+.scrollable-x{
+    overflow-x: scroll;
+}
+
+.test-res-matrix .result-value-x{background-color: #00FF00;}
+.test-res-matrix .result-value-f{background-color: #FF0000;}
