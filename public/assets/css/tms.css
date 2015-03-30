@@ -22,6 +22,7 @@
 
 .test-res-matrix{
     width: 100%;
+    cursor: pointer;
 }
 
 .test-res-matrix td, .test-res-matrix th {

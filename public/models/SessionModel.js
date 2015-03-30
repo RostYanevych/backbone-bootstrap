@@ -14,7 +14,7 @@ app.SessionModel = Backbone.Model.extend({
     },
 
     initialize: function(){
-        _.bindAll(this, 'updateSessionUser', 'checkAuth', 'postAuth', 'login', 'logout', 'signup', 'removeAccount');
+        _.bindAll(this, 'updateSessionUser', 'checkAuth', 'postAuth', 'login', 'logout', 'removeAccount');
         // Singleton user object
         // Access or listen on this throughout any module with app.session.user
         this.user = new app.UserModel({});
@@ -26,7 +26,8 @@ app.SessionModel = Backbone.Model.extend({
 
     // Fxn to update user attributes after recieving API response
     updateSessionUser: function( userData ){
-        this.user.set(_.pick(userData, _.keys(this.user.defaults)));
+        //this.user.set(_.pick(userData, _.keys(this.user.defaults)));
+        this.user.set(userData);
     },
 
     /*
@@ -78,8 +79,7 @@ app.SessionModel = Backbone.Model.extend({
             success: function(res){
 
                 if( !res.error ){
-                    if(_.indexOf(['login', 'signup'], opts.method) !== -1){
-
+                    if(_.indexOf(['login'], opts.method) !== -1){
                         self.updateSessionUser( res.user || {} );
                         self.set({ user_id: res.user.id, logged_in: true });
                     } else {
@@ -105,10 +105,6 @@ app.SessionModel = Backbone.Model.extend({
 
     logout: function(opts, callback, args){
         this.postAuth(_.extend(opts, { method: 'logout' }), callback);
-    },
-
-    signup: function(opts, callback, args){
-        this.postAuth(_.extend(opts, { method: 'signup' }), callback);
     },
 
     removeAccount: function(opts, callback, args){
