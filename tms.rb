@@ -109,7 +109,6 @@ get '/api/tests.?:format?' do
     status 500
     resp[:error] = 'Page 2 load error'
   end
-
   json resp
 end
 

@@ -4,12 +4,18 @@
 app.TestsPageView = Backbone.View.extend({
 
     initialize: function () {
-        _.bindAll(this, 'render', 'deleteTest', 'renderGrid', 'actionsCell');
+        _.bindAll(this, 'render', 'deleteTest', 'renderGrid', 'renderPaginator', 'renderNoData', 'actionsCell');
         this.tests = new app.TestsCollection();
         // listener to errors on tests load. Additional action-specific error hadler are implemented separately. E.g. re-enable buttons on delete failure
         this.listenTo(this.tests, 'error', function(model, response, options){
             console.log('Listened TESTS ERROR!!!!');
             app.showAlert('Error:', getErrorMsg(response), 'alert-danger');
+        });
+        var self = this;
+        //Initial data load listener. Grid is rendered if data is loaded successfully
+        this.listenToOnce(this.tests, 'reset', function(model, response, options){
+            console.log('listenToOnce reset triggered!!!!');
+            this.renderGrid();
         });
     },
 
@@ -17,42 +23,20 @@ app.TestsPageView = Backbone.View.extend({
         'click button[data-action-delete]': 'deleteTest'
     },
 
-    deleteTest: function(e){
-        var self=this;
-        if (confirm('Are you sure you want to delete this test?')){
-            var el=$(e.target);
-            var buttons = el.parents('.bbGrid-actions-cell').find('.btn');
-            el.parents('.bbGrid-actions-cell').find('.btn').attr('disabled','disabled'); //disable action buttons
-            self.tests.get(el.data('id')).destroy({
-                wait: true, // wait for the server to respond before removing the model from the collection. http://backbonejs.org/#Model-destroy
-                error: function(model, response, options){
-                    //enable action buttons. Error message is displayed by global tests collection error listener
-                    el.parents('.bbGrid-actions-cell').find('.btn').removeAttr('disabled');
-                },
-                success: function(model, response, options){
-                    app.showAlert('Success:', 'Test has been deleted', 'alert-success');
-                }
-            });
-        }
-    },
-
     render:function () {
         var self = this;
 
         this.$el.html(this.template({ user: app.session.user.toJSON() }));
 
-        var d = self.tests.fetch({
-            reset: true,
-            success: function(model, response, options){
-                console.log('---fetch success');
-                self.renderGrid();
-            }
-        }); //fetch returns Deferred object
+        self.tests.fetch({reset: true}); //successful fetch triggers tests' "reset" callback, which renders grid
 
         return this;
     },
 
     renderGrid: function(){
+        if( this.tests.length == 0){
+            return this.renderNoData();
+        }
         var self=this;
         var columns = [{
             name: "testid",
@@ -103,23 +87,34 @@ app.TestsPageView = Backbone.View.extend({
             collection: self.tests
         });
         $('#tests-list-container').empty().html(grid.render().el);
-        var paginator = new Backgrid.Extension.Paginator({
-
-            // If you anticipate a large number of pages, you can adjust
-            // the number of page handles to show. The sliding window
-            // will automatically show the next set of page handles when
-            // you click next at the end of a window.
-            windowSize: 20, // Default is 10
-            // Used to multiple windowSize to yield a number of pages to slide,
-            // in the case the number is 5
-            slideScale: 0.25, // Default is 0.5
-            // Whether sorting should go back to the first page
-            //goBackFirstOnSort: false, // Default is true
-            collection: self.tests
-        });
-
-        $('#tests-list-container').append(paginator.render().el);
+        this.renderPaginator();
         return this;
+    },
+
+    renderPaginator: function(){
+        if( this.tests.state.totalRecords > this.tests.state.pageSize){
+            var paginator = new Backgrid.Extension.Paginator({
+
+                // If you anticipate a large number of pages, you can adjust
+                // the number of page handles to show. The sliding window
+                // will automatically show the next set of page handles when
+                // you click next at the end of a window.
+                windowSize: 20, // Default is 10
+                // Used to multiple windowSize to yield a number of pages to slide,
+                // in the case the number is 5
+                slideScale: 0.25, // Default is 0.5
+                // Whether sorting should go back to the first page
+                //goBackFirstOnSort: false, // Default is true
+                collection: this.tests
+            });
+
+            $('#tests-list-container').append(paginator.render().el);
+        }
+        return this;
+    },
+
+    renderNoData: function(){
+        $('#tests-list-container').empty().html('<div class="well text-center">No records found</div>');
     },
 
     actionsCell: function(){
@@ -146,5 +141,25 @@ app.TestsPageView = Backbone.View.extend({
                 return this;
             }
         });
+    },
+
+    deleteTest: function(e){
+        var self=this;
+        if (confirm('Are you sure you want to delete this test?')){
+            var el=$(e.target);
+            var buttons = el.parents('.bbGrid-actions-cell').find('.btn');
+            el.parents('.bbGrid-actions-cell').find('.btn').attr('disabled','disabled'); //disable action buttons
+            self.tests.get(el.data('id')).destroy({
+                wait: true, // wait for the server to respond before removing the model from the collection. http://backbonejs.org/#Model-destroy
+                error: function(model, response, options){
+                    //enable action buttons. Error message is displayed by global tests collection error listener
+                    el.parents('.bbGrid-actions-cell').find('.btn').removeAttr('disabled');
+                },
+                success: function(model, response, options){
+                    app.showAlert('Success:', 'Test has been deleted', 'alert-success');
+                }
+            });
+        }
     }
+
 });
