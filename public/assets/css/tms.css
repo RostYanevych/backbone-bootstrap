@@ -71,3 +71,26 @@ th.rotate-90{
         width: 1890px;
     }
 }
+
+.backgrid th, .backgrid td{
+    border: 1px solid #ddd;
+}
+
+.backgrid tbody tr:hover{
+    box-shadow: 0 0 5px #777;
+}
+
+.backgrid thead th {
+    background-color: #f0f0f0;
+}
+
+.backgrid tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+.backgrid tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.backgrid tbody .actions-cell, .backgrid tbody .datetime-cell{
+    text-align: center;
+}

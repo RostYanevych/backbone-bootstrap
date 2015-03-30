@@ -100,7 +100,17 @@ get '/api/tests.?:format?' do
     test[:state] = states[rand(states.size)]
     test[:updates] = rand(100)
   end
-  json tests
+  per_page = params[:per_page].to_i || 25
+  page = params[:page].to_i || 1
+  start = (page-1)*per_page
+  resp = {total_count: tests.size, items: tests[start...start+per_page], per_page: per_page, page: page}
+
+  if params[:page]=='2'
+    status 500
+    resp[:error] = 'Page 2 load error'
+  end
+
+  json resp
 end
 
 get '/api/tests/:id' do |id|
