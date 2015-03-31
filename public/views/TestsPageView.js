@@ -7,11 +7,15 @@ app.TestsPageView = Backbone.View.extend({
         _.bindAll(this, 'render', 'deleteTest', 'renderGrid', 'renderPaginator', 'renderNoData', 'actionsCell');
         this.tests = new app.TestsCollection();
         // listener to errors on tests load. Additional action-specific error hadler are implemented separately. E.g. re-enable buttons on delete failure
+
         this.listenTo(this.tests, 'error', function(model, response, options){
-            console.log('Listened TESTS ERROR!!!!');
             app.showAlert('Error:', getErrorMsg(response), 'alert-danger');
         });
-        var self = this;
+
+        this.listenTo(this.tests, 'destroy', function(model, response, options){
+            app.showAlert('Success:', 'Test has been deleted', 'alert-success');
+        });
+
         //Initial data load listener. Grid is rendered if data is loaded successfully
         this.listenToOnce(this.tests, 'reset', function(model, response, options){
             console.log('listenToOnce reset triggered!!!!');
@@ -24,11 +28,11 @@ app.TestsPageView = Backbone.View.extend({
     },
 
     render:function () {
-        var self = this;
+        //var self = this;
 
         this.$el.html(this.template({ user: app.session.user.toJSON() }));
 
-        self.tests.fetch({reset: true}); //successful fetch triggers tests' "reset" callback, which renders grid
+        this.tests.fetch({reset: true}); //successful fetch triggers tests' "reset" callback, which renders grid
 
         return this;
     },
@@ -37,7 +41,7 @@ app.TestsPageView = Backbone.View.extend({
         if( this.tests.length == 0){
             return this.renderNoData();
         }
-        var self=this;
+        //var self=this;
         var columns = [{
             name: "testid",
             label: "Test Case ID",
@@ -78,13 +82,13 @@ app.TestsPageView = Backbone.View.extend({
             name: "id",
             label: "Actions",
             editable: false,
-            cell: self.actionsCell()
+            cell: this.actionsCell()
         }
         ];
 
         var grid = new Backgrid.Grid({
             columns: columns,
-            collection: self.tests
+            collection: this.tests
         });
         $('#tests-list-container').empty().html(grid.render().el);
         this.renderPaginator();
@@ -154,9 +158,6 @@ app.TestsPageView = Backbone.View.extend({
                 error: function(model, response, options){
                     //enable action buttons. Error message is displayed by global tests collection error listener
                     el.parents('.bbGrid-actions-cell').find('.btn').removeAttr('disabled');
-                },
-                success: function(model, response, options){
-                    app.showAlert('Success:', 'Test has been deleted', 'alert-success');
                 }
             });
         }

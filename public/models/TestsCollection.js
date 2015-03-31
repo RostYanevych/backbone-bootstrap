@@ -7,7 +7,7 @@ app.TestsCollection = Backbone.PageableCollection.extend({
     url: app.API + '/tests.json',
 // Initial pagination states
     state: {
-        pageSize: 5,
+        pageSize: 10,
         sortKey: "date",
         order: 1,
         period: 'last-week'
