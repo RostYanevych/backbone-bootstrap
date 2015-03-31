@@ -144,12 +144,11 @@ app.TestsPageView = Backbone.View.extend({
     },
 
     deleteTest: function(e){
-        var self=this;
         if (confirm('Are you sure you want to delete this test?')){
             var el=$(e.target);
             var buttons = el.parents('.bbGrid-actions-cell').find('.btn');
             el.parents('.bbGrid-actions-cell').find('.btn').attr('disabled','disabled'); //disable action buttons
-            self.tests.get(el.data('id')).destroy({
+            this.tests.get(el.data('id')).destroy({
                 wait: true, // wait for the server to respond before removing the model from the collection. http://backbonejs.org/#Model-destroy
                 error: function(model, response, options){
                     //enable action buttons. Error message is displayed by global tests collection error listener
@@ -160,7 +159,7 @@ app.TestsPageView = Backbone.View.extend({
     },
     /**
      * Shows content in tooltip if content is too long and does not fit in grid cell
-     * @param {event} [e] mouseenter event
+     * @param {event} e - the mouseenter event
      */
     showContentTooltip: function(e){
         var cell = $(e.target);
