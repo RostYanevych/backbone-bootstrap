@@ -63,7 +63,7 @@ end
 
 get '/api/tests.?:format?' do
   tests=[
-    {id: 1, testid: '5.2.1', mode: 'S', company: 'AAA', event: 'NAN Plugtest 5'},
+    {id: 1, testid: '5.2.1', mode: 'S', company: 'AAA', event: 'NAN Plugtest 5. Some long text comment. Some long text comment. Some long text comment. Some long text comment. Some long text comment. Some long text comment. Some long text comment. Some long text comment. '},
     {id: 2, testid: '5.2.2', mode: 'S', company: 'BBB', event: nil},
     {id: 3, testid: '5.2.3', mode: 'S', company: 'CCC', event: nil},
     {id: 4, testid: '5.2.4', mode: 'S', company: 'DDD', event: nil},

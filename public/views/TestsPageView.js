@@ -4,36 +4,29 @@
 app.TestsPageView = Backbone.View.extend({
 
     initialize: function () {
-        _.bindAll(this, 'render', 'deleteTest', 'renderGrid', 'renderPaginator', 'renderNoData', 'actionsCell');
+        _.bindAll(this, 'render', 'deleteTest', 'renderGrid', 'renderPaginator', 'renderNoData', 'actionsCell', 'showContentTooltip');
         this.tests = new app.TestsCollection();
         // listener to errors on tests load. Additional action-specific error hadler are implemented separately. E.g. re-enable buttons on delete failure
 
         this.listenTo(this.tests, 'error', function(model, response, options){
             app.showAlert('Error:', getErrorMsg(response), 'alert-danger');
-        });
-
-        this.listenTo(this.tests, 'destroy', function(model, response, options){
+        }).listenTo(this.tests, 'destroy', function(model, response, options){
             app.showAlert('Success:', 'Test has been deleted', 'alert-success');
         });
-
         //Initial data load listener. Grid is rendered if data is loaded successfully
         this.listenToOnce(this.tests, 'reset', function(model, response, options){
-            console.log('listenToOnce reset triggered!!!!');
             this.renderGrid();
         });
     },
 
     events: {
-        'click button[data-action-delete]': 'deleteTest'
+        'click button[data-action-delete]': 'deleteTest',
+        'mouseenter .tooltip-cell': 'showContentTooltip'
     },
 
     render:function () {
-        //var self = this;
-
         this.$el.html(this.template({ user: app.session.user.toJSON() }));
-
         this.tests.fetch({reset: true}); //successful fetch triggers tests' "reset" callback, which renders grid
-
         return this;
     },
 
@@ -52,20 +45,23 @@ app.TestsPageView = Backbone.View.extend({
             name: "state",
             label: "State",
             editable: false,
-            // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
-            cell: "string" // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
+            cell: "string"
         },{
             name: "mode",
             label: "Mode",
             editable: false,
-            // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
-            cell: "string" // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
+            cell: "string"
         },{
             name: "company",
             label: "Company",
             editable: false,
-            cell: "string" // Renders the value in an HTML anchor element
+            cell: "string"
         },{
+            name: "event",
+            label: "Event",
+            editable: false,
+            cell: Backgrid.StringCell.extend({className: 'string-cell tooltip-cell'})
+        }, {
             name: "updates",
             label: "Updates",
             editable: false,
@@ -161,6 +157,20 @@ app.TestsPageView = Backbone.View.extend({
                 }
             });
         }
+    },
+    /**
+     * Shows content in tooltip if content is too long and does not fit in grid cell
+     * @param {event} [e] mouseenter event
+     */
+    showContentTooltip: function(e){
+        var cell = $(e.target);
+        if (cell.innerWidth() < cell[0].scrollWidth) {
+            if (!cell[0].hasAttribute('title')){
+                cell.attr('title', cell.text());
+            }
+        } else {
+            if (cell[0].hasAttribute('title'))
+              cell[0].removeAttribute('title');
+        }
     }
-
 });
