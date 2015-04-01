@@ -12,7 +12,9 @@ app.TestModel = Backbone.Model.extend({
         testid: null,
         mode: null,
         company: null,
-        event: null
+        event: null,
+        state: null,
+        updates: null
     },
 
     urlRoot: app.API + '/tests'

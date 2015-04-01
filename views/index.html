@@ -9,17 +9,15 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	  
-	<title>TMS-Login</title>
+	<title>TMS - Test Management System</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{csrfToken}}">
 	  
 	<!--<link rel="shortcut icon" href="./favicon.ico">-->
 	<link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="/assets/css/bbGrid.css">
     <link rel="stylesheet" href="/assets/css/backgrid.css">
+    <link rel="stylesheet" href="/assets/css/backgrid-paginator.min.css">
     <link rel="stylesheet" href="/assets/css/tms.css">
-	<!--<link rel="stylesheet" href="/assets/css/bb-login.css">-->
-
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,25 +30,27 @@
 <body>
 	<div id="wrap">
 		<div class="header"></div>
-
 		<div id="content" class="container">
-            <!--<script src="/assets/lib/require.js" data-main="/config.js"></script>-->
+
         </div>
 	</div>
 
 	<div id="footer" class="container">
 		<hr>
-	    <p class="pull-left">&copy; 2015 Rost</p>
+	    <p class="pull-left">&copy; 2015 Test Management System</p>
 	</div>
 
     <!-- Libraries -->
     <script src="/assets/lib/jquery.js"></script>
     <script src="/assets/lib/underscore-min.js"></script>
     <script src="/assets/lib/backbone.js"></script>
+    <script src="/assets/lib/backbone.paginator.js"></script>
     <script src="/assets/vendor/bootstrap/js/bootstrap.js"></script>
     <script src="/assets/lib/parsley.js"></script>
-    <script src="/assets/lib/bbGrid.js"></script>
     <script src="/assets/lib/backgrid.js"></script>
+    <script src="/assets/lib/backgrid-paginator.js"></script>
+
+    <script src="/assets/lib/utils.js"></script>
 
     <!-- Application main file, Router -->
     <script src="app.js"></script>
@@ -71,17 +71,5 @@
     <script src="/views/AddUserPageView.js"></script>
 
     <script src="router.js"></script>
-
-    <!--
-    Employee dir
-        <script src="app.js"></script>
-        <script src="js/views/shell.js"></script>
-        <script src="js/views/home.js"></script>
-        <script src="js/views/contact.js"></script>
-        <script src="js/views/employeelist.js"></script>
-        <script src="js/views/employeedetails.js"></script>
-    -->
-
 </body>
 </html>
-

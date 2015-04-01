@@ -1,0 +1,5 @@
+messsages = {:name=> ['must have value', 'must be unique' ],
+:email => ['must have value', 'must be unique' ],
+:payment => ['must be numeric', 'must be > 0' ] }
+
+messsages.map{|k,v| "#{k} AAA  #{v.join(', ')}  BBB  "}.join("; ")

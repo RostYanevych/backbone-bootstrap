@@ -7,6 +7,10 @@ var app = {
 
     // Show alert classes and hide after specified timeout
     showAlert: function(title, text, klass) {
+        if(title==false){ //use showAlert(false); to hide alert message
+            $("#header-alert").removeClass('appear').hide();
+            return;
+        }
         $("#header-alert").removeClass("alert-danger alert-warning alert-success alert-info");
         $("#header-alert").addClass(klass);
         $("#alert-title").html(title);
@@ -14,18 +18,6 @@ var app = {
         $("#header-alert").show().addClass('appear');
         if (klass!='alert-danger') //Autohide success notifications, but not errors
             setTimeout(function() { $("#header-alert").removeClass('appear').delay(500).hide(0);}, 7000 );
-    },
-
-    // retrieves error messages from server's response to XHR call
-    getErrorMsg: function(response){
-        var error = response.statusText;
-        if(response.responseJSON && response.responseJSON.error) {
-            error = response.responseJSON.error;
-        } else {
-            if(response.responseText)
-                error = response.responseText;
-        }
-        return error;
     },
 
     loadTemplates: function(views, callback) {

@@ -38,8 +38,8 @@ get '/api/users.?:format?' do
 end
 
 # get the user
-get '/api/users/:id' do
-  user = {id: params[:id], username: 'rost', name: 'Rost', email: 'rost@mail.com'}
+get '/api/users/:id' do |id|
+  user = {id: id, username: 'rost', name: 'Rost', email: 'rost@mail.com'}
   json user
 end
 
@@ -47,20 +47,23 @@ end
 post '/api/users' do
   req = parsed_body
   user = {id: rand(10000), username: req['username'], name: req['username'], email: req['email']}
+  if req['username'] == 'error'
+    status 500
+    user[:error]='Some error while creating user'
+  end
   json user
 end
 
 # User update. Called by UserModel.save()
-put '/api/users/:id' do
+put '/api/users/:id' do |id|
   req = parsed_body
-  user = {id: params[:id], username: 'rost', name: 'Rost', email: 'rost@mail.com'}
+  user = {id: id, username: 'rost', name: 'Rost', email: 'rost@mail.com'}
   json user
 end
 
-
 get '/api/tests.?:format?' do
   tests=[
-    {id: 1, testid: '5.2.1', mode: 'S', company: 'AAA', event: 'NAN Plugtest 5'},
+    {id: 1, testid: '5.2.1', mode: 'S', company: 'AAA', event: 'NAN Plugtest 5. Some long text comment. Some long text comment. Some long text comment. Some long text comment. Some long text comment. Some long text comment. Some long text comment. Some long text comment. '},
     {id: 2, testid: '5.2.2', mode: 'S', company: 'BBB', event: nil},
     {id: 3, testid: '5.2.3', mode: 'S', company: 'CCC', event: nil},
     {id: 4, testid: '5.2.4', mode: 'S', company: 'DDD', event: nil},
@@ -91,21 +94,37 @@ get '/api/tests.?:format?' do
     {id: 29, testid: '5.2.8t', mode: 'S', company: nil, event: nil}
   ]
   dt=Time.now
+  states = ['Not Tested', 'Pass', 'Fail', 'Fail, Previous Pass']
   tests.each_with_index do |test, idx|
     test[:date] = (dt + idx*24*60*60).to_i*1000 #+ idx days, *1000 to get in js format (with ms)
+    test[:state] = states[rand(states.size)]
+    test[:updates] = rand(100)
   end
-  json tests
+  per_page = params[:per_page].to_i || 25
+  page = params[:page].to_i || 1
+  start = (page-1)*per_page
+  resp = {total_count: tests.size, items: tests[start...start+per_page], per_page: per_page, page: page}
+
+  if params[:page]=='2'
+    status 500
+    resp[:error] = 'Page 2 load error'
+  end
+  json resp
 end
 
-get '/api/tests/:id' do
-  test = {id: params[:id], testid: "5.2.#{params[:id]}", mode: 'S'}
+get '/api/tests/:id' do |id|
+  test = {id: id, testid: "5.2.#{params[:id]}", mode: 'S'}
+  if id == '1'
+    test[:error] = 'Some emulated error message with status 404'
+    status 404
+  end
   json test
 end
 
 #delete test
-delete '/api/tests/:id' do
-  resp = {id: params[:id]}
-  if params[:id] == '1'
+delete '/api/tests/:id' do |id|
+  resp = {id: id}
+  if id == '1'
     resp[:error] = 'Some Error Message'
     status 500
   end

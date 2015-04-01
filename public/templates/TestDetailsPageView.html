@@ -4,4 +4,43 @@
         <div class="col-lg-1 col-md-2 col-sm-3 col-xs-12">Test ID:</div><div class="col-lg-11 col-md-10 col-sm-9 col-xs-12"><%= test.escape('testid') %></div>
         <div class="col-lg-1 col-md-2 col-sm-3 col-xs-12">Mode:</div><div class="col-lg-11 col-md-10 col-sm-9 col-xs-12"><%= test.escape('mode') %></div>
     </div>
+    <h2>Test Result Matrix</h2>
+    <div class="scrollable-x">
+        <table class="test-res-matrix">
+            <thead>
+            <tr>
+                <th rowspan="2" colspan="2" style="background-color:#CCFFCC">&lt;PROG&gt;Plugfest #4 Nov 2014</th>
+                <th colspan="49">Test Bed STA</th>
+            </tr>
+            <tr>
+                <% _.each(['AAA','BBB','CCC','DDD','EEE','FFF','GGG'], function(cell){ %>
+                <th colspan="7" class="bg-<%= cell %>"><%= cell %></th>
+                <% }); %>
+            </tr>
+            <tr>
+                <th>Testplan Section</th>
+                <th class="rotate-90 bg-DUT"><div>DUT</div></th>
+                <% for(i=1;i<=7;i++){ %>
+                <% _.each(['AAA','BBB','CCC','DDD','EEE','FFF','GGG'], function(cell){ %>
+                <th class="rotate-90 bg-<%= cell %>"><div><%= cell %></div></th>
+                <% }); %>
+                <% }; %>
+            </tr>
+
+            </thead>
+            <tbody>
+            <%var values=['NA','','x','f']%>
+            <% for(r=1;r<=50;r++){ %>
+              <tr>
+                  <td>5.2.<%=r%></td>
+                  <td>M</td>
+                  <% for(i=1;i<=49;i++){ %>
+                    <% var value = values[_.random(values.length-1)]; %>
+                    <td class="result-value-<%=value%>"><%=value%></td>
+                  <% }; %>
+              </tr>
+            <% }; %>
+            </tbody>
+        </table>
+    </div>
 </div>

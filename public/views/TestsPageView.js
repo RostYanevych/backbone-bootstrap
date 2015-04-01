@@ -1,131 +1,175 @@
+/**
+ * Tests list page view
+ */
 app.TestsPageView = Backbone.View.extend({
 
     initialize: function () {
-        _.bindAll(this, 'render', 'deleteTest');
-        console.debug('initialize TestsView', app.TestsCollection);
+        _.bindAll(this, 'render', 'deleteTest', 'renderGrid', 'renderPaginator', 'renderNoData', 'actionsCell', 'showContentTooltip');
         this.tests = new app.TestsCollection();
-        //here we should load Tests list
+        // listener to errors on tests load. Additional action-specific error hadler are implemented separately. E.g. re-enable buttons on delete failure
+
+        this.listenTo(this.tests, 'error', function(model, response, options){
+            app.showAlert('Error:', getErrorMsg(response), 'alert-danger');
+        }).listenTo(this.tests, 'destroy', function(model, response, options){
+            app.showAlert('Success:', 'Test has been deleted', 'alert-success');
+        });
+        //Initial data load listener. Grid is rendered if data is loaded successfully
+        this.listenToOnce(this.tests, 'reset', function(model, response, options){
+            this.renderGrid();
+        });
     },
 
     events: {
-        'click button[data-action-delete]': 'deleteTest'
-    },
-
-    deleteTest: function(e){
-        var self=this;
-        if (confirm('Are you sure you want to delete this test?')){
-            self.tests.get($(e.target).data('id')).destroy({
-                wait: true, // wait for the server to respond before removing the model from the collection. http://backbonejs.org/#Model-destroy
-                error: function(model, response, options){
-                    app.showAlert('Error:', app.getErrorMsg(response), 'alert-danger');
-                },
-                success: function(model, response, options){
-                    app.showAlert('Success:', 'Test has been deleted', 'alert-success');
-                }
-            });
-        }
+        'click button[data-action-delete]': 'deleteTest',
+        'mouseenter .tooltip-cell': 'showContentTooltip'
     },
 
     render:function () {
-        var self = this;
-        //this.template = _.template(TestsPageTpl);
-
         this.$el.html(this.template({ user: app.session.user.toJSON() }));
+        this.tests.fetch({reset: true}); //successful fetch triggers tests' "reset" callback, which renders grid
+        return this;
+    },
 
+    renderGrid: function(){
+        if( this.tests.length == 0){
+            return this.renderNoData();
+        }
+        //var self=this;
         var columns = [{
             name: "testid",
             label: "Test Case ID",
+            editable: false,
             // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
             cell: "string" // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
+        },{
+            name: "state",
+            label: "State",
+            editable: false,
+            cell: "string"
         },{
             name: "mode",
             label: "Mode",
-            // The cell type can be a reference of a Backgrid.Cell subclass, any Backgrid.Cell subclass instances like *id* above, or a string
-            cell: "string" // This is converted to "StringCell" and a corresponding class in the Backgrid package namespace is looked up
+            editable: false,
+            cell: "string"
         },{
             name: "company",
             label: "Company",
-            cell: "string" // Renders the value in an HTML anchor element
-        },
-            {
-                name: "date",
-                label: "Date",
-                cell: "datetime"
+            editable: false,
+            cell: "string"
+        },{
+            name: "event",
+            label: "Event",
+            editable: false,
+            cell: Backgrid.StringCell.extend({className: 'string-cell tooltip-cell'})
+        }, {
+            name: "updates",
+            label: "Updates",
+            editable: false,
+            cell: "integer"
+        },{
+            name: "date",
+            label: "Date",
+            editable: false,
+            cell: "datetime",
+            formatter: {
+                fromRaw: function(rawValue, model){return dateTimeString(rawValue);}
             }
+        },{
+            name: "id",
+            label: "Actions",
+            editable: false,
+            cell: this.actionsCell()
+        }
         ];
 
-        var d = self.tests.fetch(); //fetch returns Deferred object
-
-        d.done(function () {
-// Initialize a new Grid instance
-            var grid = new Backgrid.Grid({
-                columns: columns,
-                collection: self.tests
-            });
-            $('#tests-list-container2').empty().html(grid.render().el);
-
-            var testsGrid = new bbGrid.View({
-                container: $('#tests-list-container').empty(), //remove "Loading..." text
-                //enableSearch: true,
-                rows: 5,
-                rowList: [5, 25, 50, 100],
-                collection: self.tests,
-                colModel: [//{ title: 'ID', name: 'id', index: true, sorttype: 'number' },
-                    { title: 'Test Case ID', name: 'testid', index: true },
-                    { title: 'Mode', name: 'mode', index: true},
-                    { title: 'Company', name: 'company', index: true},
-                    { title: 'Date', name: 'date', index: true,
-                        //self, self.model.id, self.model.attributes, self.view
-                        actions: function(id, attributes, grid){
-                            //return self.formatDateTime(attributes.date);
-                            return self.dateTimeString(attributes.date, true);
-                        }
-                    },
-                    { title: 'Actions', name: 'id',
-                        actions: function(id, attributes, grid){
-                            return '<a class="btn btn-default btn-xs btn-primary" href="#tests/'+id+'">View</a> \
-                                <a class="btn btn-default btn-xs col-md-offset-1" href="#tests/'+id+'/edit">Edit</a> \
-                                <button class="btn btn-default btn-xs col-md-offset-1 btn-danger" data-action-delete data-id='+id+'>Delete</button>';
-                        }
-                    }
-                ],
-                onReady: function() {
-                    $('.bbGrid-grid-nav a', this.$el).removeAttr('href');
-                }
-            });
+        var grid = new Backgrid.Grid({
+            columns: columns,
+            collection: this.tests
         });
-
+        $('#tests-list-container').empty().html(grid.render().el);
+        this.renderPaginator();
         return this;
     },
-    formatDateTime: function(value){
-        if(value){
-            var res = value;
-            return(res);
-        }
-        else
-            return('');
-    },
-    months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    dateString: function(dt) {
-        if ($.type(dt) != "date") dt = new Date(dt);
-        return this.months[dt.getMonth()]+' '+dt.getDate()+', '+dt.getFullYear();
-    },
-    dateTimeString: function(dt, hideSeconds) {
-        if ($.type(dt) != "date") dt = new Date(dt);
-        var hours = dt.getHours()%12;
-        if (hours == 0)
-            hours = 12;
-        var pm = parseInt(dt.getHours()/12);
-        var seconds = dt.getSeconds() < 10 ? "0"+dt.getSeconds() : dt.getSeconds();
-        var mins = dt.getMinutes() < 10 ? "0"+dt.getMinutes() : dt.getMinutes();
-        var hours = hours < 10 ? "0"+hours : hours;
 
-        str  = this.dateString(dt);
-        str += " "+hours;
-        str += ":" +mins;
-        if (!hideSeconds)
-            str += ":" + seconds;
-        str += (pm ? 'pm' : 'am');
-        return str;
+    renderPaginator: function(){
+        if( this.tests.state.totalRecords > this.tests.state.pageSize){
+            var paginator = new Backgrid.Extension.Paginator({
+
+                // If you anticipate a large number of pages, you can adjust
+                // the number of page handles to show. The sliding window
+                // will automatically show the next set of page handles when
+                // you click next at the end of a window.
+                windowSize: 20, // Default is 10
+                // Used to multiple windowSize to yield a number of pages to slide,
+                // in the case the number is 5
+                slideScale: 0.25, // Default is 0.5
+                // Whether sorting should go back to the first page
+                //goBackFirstOnSort: false, // Default is true
+                collection: this.tests
+            });
+
+            $('#tests-list-container').append(paginator.render().el);
+        }
+        return this;
+    },
+
+    renderNoData: function(){
+        $('#tests-list-container').empty().html('<div class="well text-center">No records found</div>');
+    },
+
+    actionsCell: function(){
+        return Backgrid.Cell.extend({
+            template: _.template('<a class="btn btn-default btn-xs btn-primary" href="#tests/<%=id%>">View</a>' +
+            '<a class="btn btn-default btn-xs col-md-offset-1" href="#tests/<%=id%>/edit">Edit</a>' +
+            '<button class="btn btn-default btn-xs col-md-offset-1 btn-danger" data-action-delete data-id=<%=id%>>Delete</button>'),
+            className: "actions-cell",
+            events: {
+                //"click button[data-action-delete]": "deleteRow"
+            },
+            initialize: function () {
+                Backgrid.Cell.prototype.initialize.apply(this, arguments);
+            },
+            //deleteRow: function (e) {
+            //    console.log("Delete row", e);
+            //    e.preventDefault();
+            //    //this.model.collection.remove(this.model);
+            //},
+            render: function () {
+                var rawValue = this.model.get(this.column.get("name"));
+                this.$el.html(this.template({ id: rawValue}));
+                this.delegateEvents();
+                return this;
+            }
+        });
+    },
+
+    deleteTest: function(e){
+        if (confirm('Are you sure you want to delete this test?')){
+            var el=$(e.target);
+            var buttons = el.parents('.bbGrid-actions-cell').find('.btn');
+            el.parents('.bbGrid-actions-cell').find('.btn').attr('disabled','disabled'); //disable action buttons
+            this.tests.get(el.data('id')).destroy({
+                wait: true, // wait for the server to respond before removing the model from the collection. http://backbonejs.org/#Model-destroy
+                error: function(model, response, options){
+                    //enable action buttons. Error message is displayed by global tests collection error listener
+                    el.parents('.bbGrid-actions-cell').find('.btn').removeAttr('disabled');
+                }
+            });
+        }
+    },
+    /**
+     * Shows content in tooltip if content is too long and does not fit in grid cell
+     * @param {event} e - the mouseenter event
+     */
+    showContentTooltip: function(e){
+        var cell = $(e.target);
+        if (cell.innerWidth() < cell[0].scrollWidth) {
+            if (!cell[0].hasAttribute('title')){
+                cell.attr('title', cell.text());
+            }
+        } else {
+            if (cell[0].hasAttribute('title'))
+              cell[0].removeAttribute('title');
+        }
     }
 });

@@ -1,29 +1,28 @@
 <div id="login-template">
 	<div class="clearfix" id="login-form-container">
 
-        <div class="col-md-12 well well-lg text-center">
+        <div class="col-md-4 well well-lg text-center" style="float: none; margin: 0px auto;">
             <h1>Login</h1>
-            <div class="height:50px;">
+            <div>
                 <ul id="login-errors" class="parsley-error-list"></ul>
             </div>
 
             <form id="login-form" class="form" data-validate="parsley">
                 <fieldset>
                     <div class="control-group">
-                        <div class="controls">
-                            <input type="text" id="login-username-input" name="username" placeholder="Username" value="" data-required="true" data-notblank="true">
-                            <span class="help-block"></span>
+                        <div class="controls input--minoru">
+                            <input type="text" id="login-username-input" name="username" class="form-control input__field--minoru" placeholder="Username" value="" data-required="true" data-notblank="true">
                         </div>
-                    </div>
-                    <div class="control-group mb20">
                         <div class="controls">
-                            <input class="input-medium" type="password" id="login-password-input" placeholder="Password" name="user_password" 
+                            <input type="password" id="login-password-input" placeholder="Password" name="user_password" class="form-control input__field--minoru"
                                 value="" data-required="true" data-notblank="true" data-rangelength="[5,25]">
-                            <span class="help-block"></span>
                         </div>
                     </div>
-                    <a href="#" id="login-btn" class="btn btn-primary" data-bypass>Login</a>
                 </fieldset>
+                    <div class="control-group">
+                        <a href="#" id="login-btn" class="btn btn-primary" data-bypass>Login</a>
+                    <div class="controls">
+
             </form>
         </div>
 

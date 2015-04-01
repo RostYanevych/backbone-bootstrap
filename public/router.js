@@ -56,8 +56,9 @@ app.Router = Backbone.Router.extend({
 
         } else {
             // Render inside the page wrapper
+            app.showAlert(false);
             $('#content').html(this.currentView.render().$el);
-            //this.currentView.delegateEvents(this.currentView.events);        // Re-delegate events (unbound when closed)
+            //this.currentView.delegateEvents(this.currentView.events); // Re-delegate events (unbound when closed)
         }
     },
 
@@ -77,17 +78,14 @@ app.Router = Backbone.Router.extend({
     },
 
     addUser: function(){
-        console.log('Add user route');
         this.show(new app.AddUserPageView({}),{requiresAuth: true});
     },
 
     tests: function(){
-        console.log('Tests route');
         this.show(new app.TestsPageView({}),{requiresAuth: true});
     },
 
     testDetails: function(id){
-        console.log('Test details route for test ', id);
         this.show(new app.TestDetailsPageView(id),{requiresAuth: true});
     },
 
