@@ -94,3 +94,53 @@ th.rotate-90{
 .backgrid tbody .actions-cell, .backgrid tbody .datetime-cell{
     text-align: center;
 }
+
+
+.no-float{
+    float: none;
+}
+
+.self-center{
+    margin: 0 auto;
+}
+
+/* Minoru */
+.input__field--minoru {
+    width: 100%;
+    background: #fff;
+    box-shadow: 0px 0px 0px 20px transparent;
+    /*color: #337ab7;*/
+    -webkit-transition: box-shadow 0.3s;
+    transition: box-shadow 0.3s;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.input__field--minoru:focus {
+    box-shadow: 0 0 20px #337ab7;
+}
+
+.input__field--minoru:focus + .input__label--minoru {
+    pointer-events: none;
+}
+
+.input__field--minoru:focus + .input__label--minoru::after {
+    -webkit-animation: anim-shadow 0.3s forwards;
+    animation: anim-shadow 0.3s forwards;
+}
+
+@-webkit-keyframes anim-shadow {
+    to {
+        box-shadow: 0 0 100px 50px;
+        opacity: 0;
+    }
+}
+
+@keyframes anim-shadow {
+    to {
+        box-shadow: 0 0 100px 50px;
+        opacity: 0;
+    }
+}
+
+/*End of inputs animation*/

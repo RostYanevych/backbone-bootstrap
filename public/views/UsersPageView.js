@@ -1,15 +1,21 @@
 app.UsersPageView = Backbone.View.extend({
 
-    initialize: function () {
-        _.bindAll(this, 'render');
+    initialize: function() {
+        _.bindAll(this, 'render', 'renderGrid');
         this.users = new app.UsersCollection();
+        this.listenTo(this.users, 'reset', function(model, response, options){
+            this.renderGrid();
+        });
+
     },
 
-    render:function () {
-        var self = this;
+    render: function() {
         this.$el.html(this.template({ user: app.session.user.toJSON() }));
+        this.users.fetch({reset: true}); //fetch returns Promise object
+        return this;
+    },
 
-// BackGrid
+    renderGrid: function() {
         var columns = [{
             name: "name",
             label: "Name",
@@ -25,35 +31,11 @@ app.UsersPageView = Backbone.View.extend({
             label: "Email",
             cell: "email" // Renders the value in an HTML anchor element
         }];
-// Backgrid end
-
-        var p = self.users.fetch(); //fetch returns Promise object
-        p.done(function () {
-
-// Initialize a new Backgrid.Grid instance
-            var grid = new Backgrid.Grid({
-                columns: columns,
-                collection: self.users
-            });
-
-            $('#users-list-container2').empty().html(grid.render().el);
-
-            var usersGrid = new bbGrid.View({
-                container: $('#users-list-container').empty(), //remove "Loading..." text
-                //enableSearch: true,
-                rows: 10,
-                rowList: [10, 25, 50, 100],
-                collection: self.users,
-                colModel: [
-                    { title: 'Username', name: 'username', index: true },
-                    { title: 'Name', name: 'name', index: true},
-                    { title: 'Email', name: 'email', index: true, actions: function(id, attributes, grid){return formatEmail(attributes.email);} } ],
-                onReady: function() {
-                    $('.bbGrid-grid-nav a', this.$el).removeAttr('href');
-                }
-            });
+        var grid = new Backgrid.Grid({
+            columns: columns,
+            collection: this.users
         });
-
+        $('#users-list-container').empty().html(grid.render().el);
         return this;
     }
 });

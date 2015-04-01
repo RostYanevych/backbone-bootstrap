@@ -1,54 +1,49 @@
 <div id="add-user-template" class="container">
     <div class="row clearfix" id="add-user-form-container">
-        <div class="col-md-12 well well-lg">
-            <h2 class="col-sm-offset-2">Add User</h2>
+        <div class="no-float self-center col-lg-6 col-md-9 col-sm-12 well well-lg">
+            <h2 class="col-sm-offset-4">New User</h2>
             <div class="height:50px;">
                 <ul id="signup-errors" class="parsley-error-list"></ul>
             </div>
             <form id="signup-form" class="form-horizontal" data-validate="parsley">
                 <div class="form-group">
-                    <label for="inputUserName" class="col-sm-2 control-label">Login</label>
-                    <div class="col-sm-10">
-                        <input type="test" class="form-control" id="inputUserName" name="username" data-required="true" data-notblank="true">
-                        <span class="help-block"></span>
+                    <label for="inputUserName" class="col-sm-4 control-label">Login</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="inputUserName" name="username" data-required="true" data-notblank="true">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Name</label>
-                    <div class="col-sm-10">
-                        <input type="test" class="form-control col-sm-8" id="inputName" name="name" data-required="true" data-notblank="true">
-                        <span class="help-block col-sm-4"></span>
+                    <label for="inputName" class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="inputName" name="name" data-required="true" data-notblank="true">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputUserEmail" class="col-sm-2 control-label">Email</label>
-                    <div class="col-sm-10">
+                    <label for="inputUserEmail" class="col-sm-4 control-label">Email</label>
+                    <div class="col-sm-8">
                         <input type="email" class="form-control" id="inputUserEmail" name="name" data-required="true" data-notblank="true">
-                        <span class="help-block"></span>
                     </div>
                 </div>
 
-
                 <div class="form-group">
-                    <label for="signup-password-input" class="col-sm-2 control-label">Password</label>
-                    <div class="col-sm-10">
+                    <label for="signup-password-input" class="col-sm-4 control-label">Password</label>
+                    <div class="col-sm-8">
                         <input type="password" class="form-control" id="signup-password-input" name="user_password" data-required="true" data-notblank="true" data-rangelength="[5,25]">
-                        <span class="help-block"></span>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="signup-password-confirm-input" class="col-sm-2 control-label">Confirm Password</label>
-                    <div class="col-sm-10">
+                    <label for="signup-password-confirm-input" class="col-sm-4 control-label">Confirm Password</label>
+                    <div class="col-sm-8">
                         <input type="password" class="form-control" id="signup-password-confirm-input" name="user_password" data-required="true" data-notblank="true" data-rangelength="[5,25]" data-equalto="#signup-password-input">
-                        <span class="help-block"></span>
                     </div>
-                    <span class="help-block"></span>
                 </div>
 
-                <a href="#" id="add-btn" class="btn btn-primary btn-lg pull-right" data-bypass>Create User</a>
+                <div class="clearfix">
+                    <a href="#" id="add-btn" class="btn btn-primary btn-lg pull-right" data-bypass>Create User</a>
+                </div>
             </form>
         </div>
     </div>
