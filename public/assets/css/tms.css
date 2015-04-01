@@ -104,6 +104,11 @@ th.rotate-90{
     margin: 0 auto;
 }
 
+.dropdown-menu .glyphicon{
+    top: 0;
+    vertical-align: middle;
+}
+
 /* Minoru */
 .input__field--minoru {
     width: 100%;
