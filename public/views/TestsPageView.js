@@ -119,10 +119,10 @@ app.TestsPageView = Backbone.View.extend({
 
     actionsCell: function(){
         return Backgrid.Cell.extend({
-            template: _.template('<a class="btn btn-default btn-xs btn-primary" href="#tests/<%=id%>">View</a>' +
-            '<a class="btn btn-default btn-xs col-md-offset-1" href="#tests/<%=id%>/edit">Edit</a>' +
-            '<button class="btn btn-default btn-xs col-md-offset-1 btn-danger" data-action-delete data-id=<%=id%>>Delete</button>'),
-            className: "actions-cell",
+            template: _.template('<a class="btn btn-default btn-primary" href="#tests/<%=id%>">View</a>' +
+            '<a class="btn btn-default col-md-offset-1" href="#tests/<%=id%>/edit">Edit</a>' +
+            '<button class="btn btn-default col-md-offset-1 btn-danger" data-action-delete data-id=<%=id%>>Delete</button>'),
+            className: "actions-cell btn-group-xs",
             events: {
                 //"click button[data-action-delete]": "deleteRow"
             },

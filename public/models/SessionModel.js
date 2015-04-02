@@ -77,9 +77,9 @@ app.SessionModel = Backbone.Model.extend({
             },
             data:  JSON.stringify( _.omit(opts, 'method') ),
             success: function(res){
-
                 if( !res.error ){
-                    if(_.indexOf(['login'], opts.method) !== -1){
+                    //if(_.indexOf(['login'], opts.method) !== -1){
+                    if(opts.method == 'login'){
                         self.updateSessionUser( res.user || {} );
                         self.set({ user_id: res.user.id, logged_in: true });
                     } else {

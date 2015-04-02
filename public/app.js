@@ -58,7 +58,7 @@ console.log('API call. Setting headers');
         statusCode: {
             401: function(){
 console.log('-------- 401 --------');
-                app.showAlert('401','Please re-login','alert-danger');
+                app.showAlert('401','Not Logged In','alert-danger');
                 // Redirect to the login page.
                 //app.session.set({ logged_in: false, user_id: '', user: new app.UserModel({}) });
                 //app.router.navigate('/', { trigger: true });

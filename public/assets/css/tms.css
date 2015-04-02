@@ -158,3 +158,12 @@ th.rotate-90{
 }
 
 /*End of inputs animation*/
+
+.nav .dropdown-menu > li a:hover .glyphicon{
+    transform: rotate(360deg);
+    transition: all 0.5s ease-in-out;
+}
+.nav .dropdown-menu > li a:hover .glyphicon.glyphicon-remove{
+    transform: rotate(90deg);
+    transition: all 0.3s ease-in-out;
+}
