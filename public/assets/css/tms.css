@@ -95,13 +95,8 @@ th.rotate-90{
     text-align: center;
 }
 
-
 .no-float{
     float: none;
-}
-
-.self-center{
-    margin: 0 auto;
 }
 
 .dropdown-menu .glyphicon{
@@ -109,12 +104,26 @@ th.rotate-90{
     vertical-align: middle;
 }
 
+.backgrid-paginator ul > li > a:hover, .backgrid-paginator ul > .active > a, .backgrid-paginator ul > .active > span{
+    border-radius: 4px;
+    box-shadow: 0 0 5px inset;
+}
+
+.backgrid-paginator ul > li > a{
+    margin: 0 1px;
+}
+
+.alert{
+    box-shadow:
+    0 1px 1px rgba(0,0,0,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
 /* Minoru */
 .input__field--minoru {
     width: 100%;
     background: #fff;
     box-shadow: 0px 0px 0px 20px transparent;
-    /*color: #337ab7;*/
     -webkit-transition: box-shadow 0.3s;
     transition: box-shadow 0.3s;
     margin-top: 30px;

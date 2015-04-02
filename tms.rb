@@ -127,6 +127,12 @@ delete '/api/tests/:id' do |id|
   if id == '1'
     resp[:error] = 'Some Error Message'
     status 500
+  elsif id == '2'
+    status 401
+    resp[:error] = '401 Unauthorized'
+  elsif  id == '3'
+    status 403
+    resp[:error] = '403 Access Denied'
   end
   json resp
 end

@@ -18,6 +18,7 @@ var app = {
         $("#header-alert").show().addClass('appear');
         if (klass!='alert-danger') //Autohide success notifications, but not errors
             setTimeout(function() { $("#header-alert").removeClass('appear').delay(500).hide(0);}, 7000 );
+        return this;
     },
 
     loadTemplates: function(views, callback) {
@@ -37,7 +38,40 @@ var app = {
 };
 
 $(document).on("ready", function () {
-    $.ajaxSetup({ cache: false });          // force ajax call on all browsers
+    $.ajaxSetup({
+        cache: false,
+        beforeSend: function(xhr, settings) {
+console.log('AJAX before send: ', xhr);
+console.log('settings: ', settings);
+            if(settings.url.indexOf("/api/") == 0){
+console.log('API call. Setting headers');
+                var username='someuser';
+                var password='somepassword';
+                xhr.setRequestHeader('x-my-custom-header', 'some value');
+                xhr.setRequestHeader('X-CSRF-TOKEN', 'some token value');
+                xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username + ":" + password));
+            }
+        },
+        //headers: {
+        //    "Authorization": "Basic " + btoa('USERNAME' + ":" + 'PASSWORD');
+        //},
+        statusCode: {
+            401: function(){
+console.log('-------- 401 --------');
+                app.showAlert('401','Please re-login','alert-danger');
+                // Redirect to the login page.
+                //app.session.set({ logged_in: false, user_id: '', user: new app.UserModel({}) });
+                //app.router.navigate('/', { trigger: true });
+            },
+            403: function() {
+console.log('-------- 403 --------');
+                // 403 -- Access denied
+                //window.location.replace('/#denied');
+                app.showAlert('403','Access denied','alert-danger');
+            }
+        }
+    });
+
     // Just use GET and POST to support all browsers http://backbonejs.org/#Sync-emulateHTTP
     // Backbone.emulateHTTP = true;
 
